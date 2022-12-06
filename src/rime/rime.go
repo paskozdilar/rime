@@ -51,7 +51,8 @@ func (r rime) worker() {
 	for more {
 		words, more, err = GetRhymesExclude(r.word, r.syllables, exclude)
 		if err != nil {
-			log.Fatalln("GetRhymes:", err)
+			log.Println("GetRhymes:", err)
+			return
 		}
 		for _, word := range words {
 			select {
