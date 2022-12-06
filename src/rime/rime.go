@@ -40,22 +40,23 @@ func (r rime) Channel() chan string {
 
 func (r rime) worker() {
 	var (
-		words []string
-		more  bool = true
-		err   error
+		exclude []string
+		words   []string
+		more    bool = true
+		err     error
 	)
 
 	defer close(r.streamer)
 
 	for more {
-		words, more, err = GetRhymesExclude(r.word, r.syllables, words)
+		words, more, err = GetRhymesExclude(r.word, r.syllables, exclude)
 		if err != nil {
 			log.Fatalln("GetRhymes:", err)
 		}
 		for _, word := range words {
 			select {
 			case r.streamer <- word:
-				continue
+				exclude = append(exclude, word)
 			case <-r.closer:
 				return
 			}
