@@ -89,8 +89,8 @@ func GetRhymes(word string, syllables int) (words []string, more bool, err error
 }
 
 func GetRhymesExclude(word string, syllables int, exclude []string) (words []string, more bool, err error) {
-	if syllables <= 0 {
-		err = errors.New("syllables cannot be non-positive")
+	if syllables < 1 || syllables > 10 {
+		err = errors.New("syllables must be in range [1,10]")
 		return
 	}
 
